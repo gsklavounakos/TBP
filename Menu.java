@@ -1,15 +1,25 @@
 import java.util.Scanner;
+import static java.lang.System.exit;
+import java.util.InputMismatchException;
 
 public class Menu {
-    
-    do {
-
-        System.out.println("Welcome to toEater! Please choose an option: "+ "\n" +
-                    "\r" + "1.Show posts" + "\n" +
-                    "\r" + "2.Create post" + "\n" +
-                    "\r" + "3.Close app");
-        Scanner in = new Scanner(System.in);
-        int option = in.nextInt();
+    public static void printMenu() {
+        System.out.println("Welcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app");
+        int option = 0;
+        boolean read = false;
+        while (read != true) {
+            try {
+				Scanner in = new Scanner(System.in);
+                option = in.nextInt();
+                read = true;
+            } catch (InputMismatchException e) {
+                read = false;
+            }
+            if (option != 1 & option != 2 & option != 3) {
+                read = false;
+                System.out.println ("Please enter an integer value between 1 and 3.");
+            }
+        }
 
         switch(option) {
             case 1:
@@ -21,12 +31,7 @@ public class Menu {
                 p.newPost();
                 break;
             case 3:
-                break;
-                boolean g = true;
-            default:
-                System.out.println("This option doesn't exist, choose 1, 2 or 3");
-                break;
+                exit(0);
             }
-        }while(g == true);
-
+    }
 }
