@@ -1,28 +1,30 @@
 public class User {
 
-	private String username;
-	private String password;
-	private String[] usernameDatabase;
-	private String[] passwordDatabase;
-	public static int count = 0;
+	private String username = " ";
+	private String password = " ";
+	private int typeaccount = 0;
 
-	public User() {
-		this.username = " ";
-		this.password = " ";
-		for (int i = 0; i <= usernameDatabase.length; i++) {
-			this.usernameDatabase[i] = " ";
-		}
-		for (int i = 0; i <= passwordDatabase.length; i++) {
-			this.passwordDatabase[i] = " ";
-		}
+	public User(String username, int typeaccount, String password) {
+		this.username = username;
+		this.typeaccount = typeaccount;
+		this.password = password;
 	}
 
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.usernameDatabase[count] = this.username;
-		this.passwordDatabase[count] = this.password;
-		count++;
+	}
+
+	public void setUsername(String username) {
+        this.username = username;
+	}
+
+	public void setPassword(String password) {
+        this.password = password;
+	}
+
+	public void setTypeAccount(int typeaccount) {
+		this.typeaccount = typeaccount;
 	}
 
 	public String getUsername() {
@@ -33,22 +35,9 @@ public class User {
 		return password;
 	}
 
-	public String[] getUsernameDatabase() {
-			return usernameDatabase;
+	public int getTypeAccount() {
+		return typeaccount;
 	}
-
-	public String[] getPasswordDatabase() {
-			return passwordDatabase;
-	}
-	public boolean findUsername(String x) {
-		boolean found = false;
-		for (int i = 0; i <= usernameDatabase.length; i++) {
-			if (usernameDatabase[i] == x) {
-				found = true;
-			}
-		}
-		return found;
-	}
-
 }
+
 
