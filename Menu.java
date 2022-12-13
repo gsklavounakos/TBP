@@ -1,10 +1,9 @@
 import java.util.Scanner;
-import static java.lang.System.exit;
 import java.util.InputMismatchException;
 
 public class Menu {
-    public static void printMenu() {
-        System.out.println("Welcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app");
+    public static boolean printMenu() {
+        System.out.println("\n\nWelcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app\n");
         int option = 0;
         boolean read = false;
         while (read != true) {
@@ -25,13 +24,17 @@ public class Menu {
             case 1:
                 Posts y = new Posts();
                 y.showPosts();
-                break;
+                boolean b = true;
+                return b;
             case 2:
-                CreatePost p = new CreatePost();
+                Posts p = new Posts();
                 p.newPost();
-                break;
+                boolean w = true;
+                return w;
             case 3:
-                exit(0);
+                boolean q = false;
+                return q;
             }
+        return read;
     }
 }

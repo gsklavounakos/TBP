@@ -3,8 +3,6 @@ import java.sql.*;
 
 /**
  * UserDAO provides all the necessary methods related to users.
- * 
- * @author 
  *
  */
 public class UserDAO {
@@ -124,7 +122,7 @@ public class UserDAO {
 	 * @param user, user
 	 * @throws Exception, if encounter any error.
 	 */
-    public void addPost(String newpost) throws Exception {
+    public void addPost(String newpost, int stars) throws Exception {
 			
         Connection con = null;
         DB db = new DB();
@@ -132,9 +130,10 @@ public class UserDAO {
         try {
             
             con = db.getConnection();
-			String sql = "INSERT INTO allposts(posts) VALUES (?);";
+			String sql = "INSERT INTO allposts(posts,rating,likes) VALUES (?,?,0);";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, newpost);
+            stmt.setInt(1, stars);
             stmt.executeUpdate();	
 			stmt.close();
             db.close();
@@ -153,11 +152,47 @@ public class UserDAO {
 	}//end of addpost
 	
     /**
-	 * returns a single post with id = the parameter postid
+	 * returns a single post with id = the parameter's postid
 	 * @param postid, int
 	 * @throws Exception, if encounter any error.
 	 */
-    public String getPost(int postid) throws Exception {
+    public Posts getPost(int postid) throws Exception {
+			
+        Connection con = null;
+        DB db = new DB();
+
+        try {
+            
+            con = db.getConnection();
+			String sql = "SELECT * FROM allposts where postid=? ;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, postid);
+            ResultSet rs = stmt.executeQuery();
+            Posts p = new Posts(rs.getInt("postid"),rs.getString("posts"),rs.getInt("stars"),rs.getInt("likes"));
+            stmt.close();
+            db.close();
+            return p;
+
+
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        } finally {
+
+            try {
+                db.close();
+            } catch (Exception e) {
+                
+            }
+		
+		}
+	}//end of getPost
+
+    /**
+	 * returns a single post with id = the parameter's postid
+	 * @param postid, int
+	 * @throws Exception, if encounter any error.
+	 */
+    public String getPostRating(int postid) throws Exception {
 			
         Connection con = null;
         DB db = new DB();
@@ -220,5 +255,41 @@ public class UserDAO {
 		
 		}
     }
+
+    /**
+	 * adds a like to the post specified by the user with postid
+     * 
+	 * 
+	 * @param user, user
+	 * @throws Exception, if encounter any error.
+	 */
+    public void addLike(int postid) throws Exception {
+			
+        Connection con = null;
+        DB db = new DB();
+
+        try {
+            
+            con = db.getConnection();
+			String sql = "UPDATE allposts SET likes = likes + 1 WHERE postid = ?;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, postid);
+            stmt.executeUpdate();	
+			stmt.close();
+            db.close();
+
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        } finally {
+
+            try {
+                db.close();
+            } catch (Exception e) {
+                
+            }
+		
+		}
+	}//end of addLike
+
 
 } //End of class
