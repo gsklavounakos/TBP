@@ -221,7 +221,7 @@ public class UserDAO {
             }
 		
 		}
-	}//end of getPost
+	}//end of getPostRating
 
 
     /**
