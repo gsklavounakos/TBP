@@ -8,7 +8,7 @@ public class Menu {
         boolean read = false;
         while (read != true) {
             try {
-				Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
                 option = in.nextInt();
                 read = true;
             } catch (InputMismatchException e) {
