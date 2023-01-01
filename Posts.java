@@ -5,8 +5,8 @@ public class Posts {
 
     private int postid;
     private String post;
-	private int stars;
-	private int likes;
+    private int stars;
+    private int likes;
 
     public Posts(int postid, String post, int stars, int likes) {
         this.postid = postid;
