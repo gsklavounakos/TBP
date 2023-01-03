@@ -76,31 +76,30 @@ public class UserDAO {
 
         try {
             
-            con = db.getConnection();
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, user.getUsername());
-            ResultSet rs = stmt.executeQuery();
+		con = db.getConnection();
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, user.getUsername());
+		ResultSet rs = stmt.executeQuery();
 
-			if (rs.next()) {
+		if (rs.next()) {
 
-                rs.close();
-                stmt.close();
-                db.close();
-                throw new Exception("Sorry, username "+ user.getUsername() + " already registered");
+			rs.close();
+			stmt.close();
+			db.close();
+			throw new Exception("Sorry, username "+ user.getUsername() + " already registered");
+		}
 
-            }
-
-			String sql2 = "INSERT INTO user " 
-           		+ " (username,password,typeaccount) VALUES (?, ? ,?);";
-			PreparedStatement stmt2 = con.prepareStatement(sql2);
-			stmt2.setString(1, user.getUsername());
-            stmt2.setString(2, user.getPassword());
-            stmt2.setInt(6, user.getTypeAccount());
-			stmt2.executeUpdate();	
-			stmt2.close();	
-            rs.close();
-            stmt.close();
-            db.close();
+		String sql2 = "INSERT INTO user " 
+		+ " (username,password,typeaccount) VALUES (?, ? ,?);";
+		PreparedStatement stmt2 = con.prepareStatement(sql2);
+		stmt2.setString(1, user.getUsername());
+		stmt2.setString(2, user.getPassword());
+		stmt2.setInt(3, user.getTypeAccount());
+		stmt2.executeUpdate();	
+		stmt2.close();	
+		rs.close();
+		stmt.close();
+		db.close();
 
         } catch (Exception e) {
             throw new Exception(e.getMessage());
