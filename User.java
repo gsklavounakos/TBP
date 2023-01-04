@@ -9,6 +9,10 @@ public class User {
 		this.typeaccount = typeaccount;
 		this.password = password;
 	}
+	
+	public User(String username) {
+		this.username = username;
+	}
 
 	public User(String username, String password) {
 		this.username = username;
