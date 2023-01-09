@@ -9,6 +9,7 @@ public class Register {
 	public static void registerNewUser() {
 		boolean wrongRegister;
 		do {
+			System.out.println("Create your account");
 			Scanner in = new Scanner(System.in);
 			System.out.println("Enter username: ");
 			String username = in.nextLine();
@@ -41,9 +42,10 @@ public class Register {
 			int testtypeacc = newUser.getTypeAccount();
 
 			String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
-			                   "databaseName=DB11;user=G511;password=313678;";
+			                   "databaseName=DB11;user=G511;password=229094;";
 			Connection dbconnect = null;
 			Statement statement = null;
+			Statement statementInsert = null;
 			ResultSet rs = null;
 
 			try {
@@ -52,43 +54,47 @@ public class Register {
 				System.err.println("ClassNotFoundException");
 				System.out.println(e.getMessage());
 			}
+
 			String usernameDB = "";
 			String passwordDB = "";
 			int typeaccDB = 0;
 			wrongRegister = true;
 
+			String query = "SELECT UserID,TypeAccount,UserPassword FROM UserProfile";
+
+
 			try {
 				dbconnect = DriverManager.getConnection(url);
 				statement = dbconnect.createStatement();
-				rs = statement.executeQuery("SELECT UserID,TypeAccount,UserPassword FROM UserProfile");
+				statementInsert = dbconnect.createStatement();
+				rs = statement.executeQuery(query);
 				while (rs.next()) {
 					usernameDB = rs.getString("UserID");
 					passwordDB = rs.getString("UserPassword");
 					typeaccDB = rs.getInt("TypeAccount");
-					if (testusername.equals(usernameDB)) {
-						System.out.println("Username already taken, insert new one");
+					if (!(testusername.equals(usernameDB))) {
 						wrongRegister = false;
-					} else {
-						System.out.println("User does not exists in database");
-						wrongRegister = true;
-						//String insert = "INSERT INTO UserProfile ('UserID','TypeAccount','UserPassword') VALUES (?,?,?)";
-						//PreparedStatement st = dbconnect.prepareStatement(insert);
-						//st.setString(1,testusername);
-						//st.setInt(2,testtypeacc);
-						//st.setString(3,testpassword);
-						//ResultSet resultSet = st.executeQuery();
-						//st.close();
-						//resultSet.close();
+						String insert = "INSERT INTO UserProfile(UserID, TypeAccount, UserPassword) VALUES('" +
+						testusername + "'," + testtypeacc + ",'" +testpassword + "')";
+						statementInsert.executeUpdate(insert);
+						System.out.println("Successful register");
+						break;
 					}
 				}
 				rs.close();
+				statementInsert.close();
 				statement.close();
 				dbconnect.close();
 			}catch(SQLException e) {
 				System.out.print("SQLException: ");
 				System.out.println(e.getMessage());
+				System.out.println("Username already taken, insert new one");
+				wrongRegister = true;
 			}
 		}while (wrongRegister == true);
+
+		Login l = new Login();
+		l.signInUser();
 	}
 
 }
