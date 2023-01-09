@@ -42,7 +42,7 @@ public class Register {
 			int testtypeacc = newUser.getTypeAccount();
 
 			String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
-			                   "databaseName=DB11;user=G511;password=229094;";
+			                   "databaseName=DB11;user=G511;password=313679;";
 			Connection dbconnect = null;
 			Statement statement = null;
 			Statement statementInsert = null;
