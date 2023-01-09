@@ -9,7 +9,7 @@ public class Login {
 	public static void signInUser() {
 		boolean wrongLogin;
 		do {
-			System.out.println("Create your account");
+			System.out.println("Log into your account");
 			Scanner in = new Scanner(System.in);
 
 			System.out.println("Username: ");
