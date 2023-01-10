@@ -55,13 +55,10 @@ public class Register {
 				System.out.println(e.getMessage());
 			}
 
-			String usernameDB = "";
-			String passwordDB = "";
-			int typeaccDB = 0;
+			int numfound;
 			wrongRegister = true;
 
-			String query = "SELECT UserID,TypeAccount,UserPassword FROM UserProfile";
-
+			String query = "SELECT COUNT(*) as found FROM UserProfile WHERE UserID = '" + testusername + "'";
 
 			try {
 				dbconnect = DriverManager.getConnection(url);
@@ -69,16 +66,16 @@ public class Register {
 				statementInsert = dbconnect.createStatement();
 				rs = statement.executeQuery(query);
 				while (rs.next()) {
-					usernameDB = rs.getString("UserID");
-					passwordDB = rs.getString("UserPassword");
-					typeaccDB = rs.getInt("TypeAccount");
-					if (!(testusername.equals(usernameDB))) {
+					numfound = rs.getInt("found");
+					if (numfound == 0) {
 						wrongRegister = false;
 						String insert = "INSERT INTO UserProfile(UserID, TypeAccount, UserPassword) VALUES('" +
 						testusername + "'," + testtypeacc + ",'" +testpassword + "')";
 						statementInsert.executeUpdate(insert);
 						System.out.println("Successful register");
-						break;
+					} else {
+						System.out.println("Username already taken, insert new one");
+						wrongRegister = true;
 					}
 				}
 				rs.close();
@@ -88,8 +85,6 @@ public class Register {
 			}catch(SQLException e) {
 				System.out.print("SQLException: ");
 				System.out.println(e.getMessage());
-				System.out.println("Username already taken, insert new one");
-				wrongRegister = true;
 			}
 		}while (wrongRegister == true);
 
