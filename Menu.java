@@ -1,15 +1,30 @@
 import java.util.Scanner;
-import static java.lang.System.exit;
 import java.util.InputMismatchException;
 
+
+
 public class Menu {
-    public static void printMenu() {
-        System.out.println("Welcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app");
+    /**
+     * prints Home Menu
+     * 
+     * @param user , user
+	 * @throws Exception , if encounter any error.
+     */
+
+    /**
+	 * adds the post to the posts column of the allposts table
+     * 
+	 * 
+	 * @param user, user
+	 * @throws Exception, if encounter any error.
+	 */
+    public static boolean printMenu(User thisuser) {
+        System.out.println("\n\nWelcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app\n");
         int option = 0;
         boolean read = false;
         while (read != true) {
             try {
-				Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
                 option = in.nextInt();
                 read = true;
             } catch (InputMismatchException e) {
@@ -24,14 +39,19 @@ public class Menu {
         switch(option) {
             case 1:
                 Posts y = new Posts();
-                y.showPosts();
-                break;
+                y.showPosts(thisuser);
+                boolean b = true;
+                return b;
             case 2:
-                CreatePost p = new CreatePost();
-                p.newPost();
-                break;
+                Posts p = new Posts();
+                p.newPost(thisuser);
+                boolean w = true;
+                return w;
             case 3:
-                exit(0);
+                boolean q = false;
+                return q;
             }
-    }
-}
+        return read;
+    }//end of printMenu
+    
+}// end of class Menu
