@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.lang.Exception;
 
 
 
@@ -16,7 +16,7 @@ public class Menu {
      * 
 	 * 
 	 * @param user, user
-	 * @throws Exception, if encounter any error.
+	 * @throws InputMismatchxception, if encounter any error.
 	 */
     public static boolean printMenu(User thisuser) {
         System.out.println("\n\nWelcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app\n");
@@ -27,7 +27,7 @@ public class Menu {
 		Scanner in = new Scanner(System.in);
                 option = in.nextInt();
                 read = true;
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 read = false;
             }
             if (option != 1 & option != 2 & option != 3) {
@@ -42,14 +42,17 @@ public class Menu {
                 y.showPosts(thisuser);
                 boolean b = true;
                 return b;
+		break;
             case 2:
                 Posts p = new Posts();
                 p.newPost(thisuser);
                 boolean w = true;
                 return w;
+		break;
             case 3:
                 boolean q = false;
                 return q;
+		break;
             }
         return read;
     }//end of printMenu
