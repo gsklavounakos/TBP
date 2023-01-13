@@ -1,6 +1,6 @@
 import static java.lang.System.exit;
 import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.lang.Exception;
 
 
 
@@ -22,7 +22,7 @@ public class Main {
 				Scanner in = new Scanner(System.in);
 				option = in.nextInt();
 				read = true;
-			}catch (InputMismatchException e) {
+			}catch (Exception e) {
 				read = false;
 			}
 			if (option != 1 & option != 2 & option != 3) {
@@ -32,20 +32,24 @@ public class Main {
 		}
 		
 		switch(option) {
-			case 1:										//option 1 for register
-				Register r = new Register();
-				User tempuser = r.registerNewUser();
-				
-				Boolean b = true;
+			case 1:	                                                 //option 1 for register
+				try {
+					Register r = new Register();
+					User tempuser = r.registerNewUser();
 
-				while (b == true) {
-					
-					User thisuser = tempuser;
-					b = Menu.printMenu(thisuser); 
-				
+					Boolean b = true;
+
+					while (b == true) {
+
+						User thisuser = tempuser;
+						b = Menu.printMenu(thisuser); 
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
-				break;
+					break;
 
 
 			case 2:											//option 2 for login
