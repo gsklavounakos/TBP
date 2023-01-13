@@ -24,17 +24,20 @@ public class Comments {
     
     public void showComments(ArrayList<Integer> commentsids) throws Exception{
         UserDAO userdao = new UserDAO();
-        
-        int commentssnum = commentsids.size();
-        int i = 1 ;
-        Comments comment = userdao.getComment(commentsids.get(0));
-        Posts thepost = userdao.getPost(comment.postid);
-        do {
-            comment = userdao.getComment(commentsids.get(i-1));
-            System.out.println("Comment's ID " + comment.commentid +"\n\nComment:\n" + comment.comment + "\nAuthor "  + comment.username);
-            
-            
-        }while(i<=commentssnum);
+        try{
+            int commentssnum = commentsids.size();
+            int i = 1 ;
+            Comments comment = userdao.getComment(commentsids.get(0));
+            Posts thepost = userdao.getPost(comment.postid);
+            do {
+                comment = userdao.getComment(commentsids.get(i-1));
+                System.out.println("Comment's ID " + comment.commentid +"\n\nComment:\n" + comment.comment + "\nAuthor "  + comment.username);
+                
+                
+            }while(i<=commentssnum);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
     
 }
