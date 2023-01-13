@@ -54,7 +54,6 @@ public class Menu {
                 return q;
 		break;
             }
-        return read;
     }//end of printMenu
     
 }// end of class Menu
