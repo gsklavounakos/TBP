@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -49,7 +48,7 @@ public class Posts {
                             Scanner in = new Scanner(System.in);
                             option = in.nextInt();
                             read = true;
-                        } catch (InputMismatchException e) {
+                        } catch (Exception e) {
                             read = false;
                         }
                         if (option != 1 & option != 2 & option != 3 & option != 4 & option != 5) {
@@ -95,6 +94,7 @@ public class Posts {
                 } while(option != 4 & option != 5);
             } while (i <= postsnum );
         } catch (Exception e) {
+            System.out.println("Exception occured");
         }
         
     }
@@ -102,23 +102,23 @@ public class Posts {
 
 
     public void newPost(User thisuser ) {
-
-        System.out.println("\n---------------------\nType your Post\n");
-        String post = in.nextLine();
-        
-        Rating r = new Rating();
-        int stars = r.addRating();
-
-        UserDAO user = new UserDAO();
-        try {
-            System.out.println("Loading...");
-            user.addPost(post, stars, thisuser.getUsername());
-            System.out.println("Post successfully added");
-        } catch (Exception e) {
+        boolean added = false;
+        do{
             try {
-                System.out.println(e.getMessage()); 
-            } catch (Exception e1) {
+                System.out.println("\n---------------------\nType your Post\n");
+                String post = in.nextLine();
+                
+                Rating r = new Rating();
+                int stars = r.addRating();
+
+                UserDAO user = new UserDAO();
+                System.out.println("Loading...");
+                user.addPost(post, stars, thisuser.getUsername());
+                System.out.println("Post successfully added");
+                added = true;
+            } catch (Exception e) {
+                System.out.println("Exception occured");
             }
-        }
+        } while(added = false);
     }
 }
