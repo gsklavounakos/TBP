@@ -10,14 +10,6 @@ public class Menu {
      * @param user , user
 	 * @throws Exception , if encounter any error.
      */
-
-    /**
-	 * adds the post to the posts column of the allposts table
-     * 
-	 * 
-	 * @param user, user
-	 * @throws InputMismatchxception, if encounter any error.
-	 */
     public static boolean printMenu(User thisuser) {
         System.out.println("\n\nWelcome to toEater! Please choose an option:\n1.Show posts\n2.Create a post\n3.Close app\n"); 
         int option = 0;
