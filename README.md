@@ -26,5 +26,7 @@ ToEater is a social media that allows its users to share their experience of the
 
 ## UML diagram about code design
 
+![UML diagram](https:2023-01-15 (4).png:)
+
 
 ## Overview of data structures and algorithms used
