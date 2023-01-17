@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Rating {
@@ -9,11 +8,11 @@ public class Rating {
         while (read != true) {
             try {
 
-				Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
                 stars = in.nextInt();
                 read = true;
 
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 read = false;
             }
             if (stars < 1 | stars > 5) {
