@@ -13,12 +13,10 @@ ToEater is a social media that allows its users to share their experience of the
  - By typing "1", User creates a new account by selecting his username, password and type of account (personal or professional usage). 
  - If User chooses "2", User logs in with his passwords, with witch he has registered before.
  - By typing "3", User exits from the app.
-
 3. After register or login, User enters the home page/menu.
  - By typing "1", User can see the different posts of other users. 
  - By typing "2", User can create a new post reviewing a restaurant and rating his expirience.
  - If User chooses "3", User exits from the app.
-
 4. By selecting option 1 in the menu, the user is further prompted to select which feature of the application he want to use.
  - By typing "1", User has the option to like on the post that interests them.
  - By typing "2", User is shown the comments on this post.
