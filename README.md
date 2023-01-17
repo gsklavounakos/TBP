@@ -2,7 +2,7 @@
 
 ToEater is a social media that allows its users to share their experience of the restaurants they visited with other users by posting reviews.
 
-## Program compilation instructions Installation
+## Program compilation instructions
 
 
 ## Program execution instructions
