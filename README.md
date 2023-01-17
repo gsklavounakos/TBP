@@ -22,7 +22,11 @@ ToEater is a social media that allows its users to share their experience of the
  - By typing "5", User can return to the home page/menu.
 
 ## Presentation of the structure of the repository contents
+The repository has 6 branches owned by almost every team member and contains pieces of the program.
+Εach branch contains the classes the team has been working on, which now appear in their final form on the main branch. T
+One of the branches also contains the 3 presentations that were made and elements necessary for them, such as the uml diagram. 
 
+The main branch contains the final version of the application code, the licence and the sql files used for our database.
 
 ## UML diagram about code design
 ![UML diagram](https://github.com/gsklavounakos/TBP/blob/9aa58a42b124e2a84df1727f6d428d47b71a84d8/2022-12-13%20(6).png)
