@@ -1,5 +1,4 @@
 # ToEater
-
 ToEater is a social media that allows its users to share their experience of the restaurants they visited with other users by posting reviews.
 
 ## Program compilation instructions
@@ -9,7 +8,6 @@ ToEater is a social media that allows its users to share their experience of the
 
 
 ## Usage
-
 1. User enters the application by typing in the command line the program execution instructions.
 2. User enters the very first page of the application and types one of the following option.
  - By typing "1", User creates a new account by selecting his username, password and type of account (personal or professional usage). 
