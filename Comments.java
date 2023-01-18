@@ -43,6 +43,8 @@ public class Comments {
             int i = 1 ;
             Comments comment = userdao.getComment(commentsids.get(0));
             Posts thepost = userdao.getPost(comment.postid);
+			System.out.println("\nCOMMENTS:");
+                
             do {
                 comment = userdao.getComment(commentsids.get(i-1));
                 //System.out.println("\nComment's ID " + comment.commentid +"\n\nComment:\n" + comment.comment + "\nAuthor's username: "  + comment.username);
@@ -50,6 +52,8 @@ public class Comments {
                 i+=1;
                 
             }while(i<=commentssnum);
+			System.out.println("End of comments.\n");
+                
         } catch (Exception e) {
             e.getMessage();
         }

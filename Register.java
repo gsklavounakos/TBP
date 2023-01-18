@@ -40,7 +40,7 @@ public class Register {
                 UserDAO userdao = new UserDAO();         //creates a 'UserDAO' object
                 try {
                     userdao.register(newUser); 
-					System.out.println("\nAccount successfully created!");
+					System.out.println("\nAccount created successfully! Now you can relaunch the app\nand sign in using your credentials, \n\nUsername: "+ newUser.getUsername() + "\nPassword: "+ newUser.getPassword() +"\n");
                     wrongRegister = false;
                 } catch (Exception e) {
                     wrongRegister = true;

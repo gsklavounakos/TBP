@@ -100,7 +100,7 @@ public class UserDAO {
 
             rs = statement.executeQuery(sql);
 
-		if (rs.next()) {
+		if (rs.next()) {			//if the result set has a next value, it means that it found an account with the same username
 
 			rs.close();
 			statementInsert.close();
@@ -184,8 +184,8 @@ public class UserDAO {
             System.out.println(e.getMessage());
         }
 
-        String sql = "INSERT INTO allcomments(comment,postid,username) VALUES ('" + newcomment + "','" + postid + "','"+ username + "')";
-		String sql1 = "UPDATE allposts SET commentnumber = commentnumber + 1 WHERE postid ='"+postid+"'";
+        String sql = "INSERT INTO allcomments(comment,postid,username) VALUES ('" + newcomment + "','" + postid + "','"+ username + "')";	//inserts comment in allcomments table
+		String sql1 = "UPDATE allposts SET commentnumber = commentnumber + 1 WHERE postid ='"+postid+"'";			// updates allposts table to change the commentsnumber to the current comments number (+1) 
         
         try {
             

@@ -65,7 +65,7 @@ public class Posts {
 							} catch (Exception e) {
 								read = false;
 							}
-							if (option != 1 & option != 2 & option != 3 & option != 4 & option != 5) {
+							if (option != 1 & option != 2 & option != 3 & option != 4 & option != 5) { //checks if the value is within limits
 								read = false;
 								System.out.println ("Please enter an integer value between 1 and 5.");
 							}
@@ -74,7 +74,7 @@ public class Posts {
 						switch(option) {
 							case 1:          //The user wants to like the post
 								if (likePost == false) {
-									userdao.addLike(thispost.postid);
+									userdao.addLike(thispost.postid); //userdao handles the like adding
 									likePost = true;
 									System.out.println("\nPost liked successfully\n");
 								} else {
@@ -85,12 +85,12 @@ public class Posts {
 							case 2:          //The user wants to see the comments of the post
 
 
-								ArrayList<Integer> commentsids = userdao.getCommentsIds(thispost.postid);
+								ArrayList<Integer> commentsids = userdao.getCommentsIds(thispost.postid);	//gets all comment's ID's for the current post
 								if (commentsids.size()==0) {
 									System.out.println("No comments in this post yet");
 								} else {
 									Comments comments = new Comments();
-									comments.showComments(commentsids);
+									comments.showComments(commentsids);		//sends the arrayList commentids to showcomments to show each comment
 								}
 								break;
 

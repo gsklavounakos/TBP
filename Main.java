@@ -28,7 +28,7 @@ public class Main {
 			}catch (Exception e) {
 				read = false;
 			}
-			if (option != 1 & option != 2 & option != 3) {
+			if (option != 1 & option != 2 & option != 3) {       //checks if the user's input value for the option is an int between 1 and 3
 				read = false;
 				System.err.println("This option doesn't exist, choose 1, 2 or 3");
 			}
@@ -38,17 +38,7 @@ public class Main {
 			case 1:	                         //option 1 for register
 				try {
 					Register r = new Register();
-					User tempuser = r.registerNewUser();
-
-					Boolean b = true;
-					
-
-					while (b == true) {
-
-						User thisuser = tempuser;
-						b = Menu.printMenu(thisuser); 
-
-					}
+					User tempuser = r.registerNewUser(); //registerNewUser handles the register, and prints the users credentials before quitting
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,7 +55,7 @@ public class Main {
 
 					while (b == true) {
 
-						b = Menu.printMenu(thisuser); 
+						b = Menu.printMenu(thisuser); 		//proceeds to Main Menu
 
 					}
 				} catch (Exception e) {

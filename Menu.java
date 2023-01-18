@@ -37,7 +37,6 @@ public class Menu {
             if (option != 1 & option != 2 & option != 3) {  //if the answer is invalid print the message
                 read = false;
                 System.out.println ("Please enter an integer value between 1 and 3.");
-                //break;
             }
         }
 
