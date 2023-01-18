@@ -1,13 +1,13 @@
 # ToEater
 ToEater is a social media that allows its users to share their experience of the restaurants they visited with other users by posting reviews.
 ## Program execution instructions
-Download file from Github repository(If file is in zip form, download and unzip the file).
+Download each class and sql file from the main branch and place them all in a folder.
 Open command prompt (cmd).
 Type the path where the application is located on your computer in path_of_file.
 ```bash
 cd path_of_file
 ```
-Example: If the app is in Desktop and the file name is TBP-Main, type the following in the command prompt(cmd).
+Example: If the app is in Desktop and the folder name is TBP-Main, type the following in the command prompt(cmd).
 ```bash
 cd Desktop\TBP-Main
 ```
