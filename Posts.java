@@ -24,7 +24,7 @@ public class Posts {
         this.commentsnumber = commentsnumber;
     }
 
-    public Posts() {         //Constructor
+    public Posts() {         //No args constructor
         postid = 0;
         post = null;
         stars = 0;
@@ -42,72 +42,84 @@ public class Posts {
 
 
     
-    public void showPosts(User thisuser){
+    public void showPosts(User thisuser) throws Exception{
         UserDAO userdao = new UserDAO();
+		boolean likePost = false;
         try {
-            int postsnum = userdao.getPostSize();
+            //int postsnum = userdao.getPostSize();
             int i = 1 ;
+            Posts thispost = new Posts();
             do {
-                Posts post = userdao.getPost(i);
+                thispost = userdao.getPost(i);
                 int option = 0;
-                boolean likePost = false;
-                do {                            //The loop ends then the user wants to see the next post or go to Home Menu
-                    System.out.println("Post number " + post.postid +"\n\nPost:\n" + post.post + "\nRating: " + post.stars + "\nLikes number: " + post.likes + "\n Number of Comments: " + post.commentsnumber);
-                    System.out.println("\nPlease choose an option:\n1.Like this Post\n2.Show Comments\n3.Add comment\n4.Next Post\n5.Go to Home Menu");  
-                    option = 0;
-                    boolean read = false;
-                    while (read != true) {
-                        try {
-                            Scanner in = new Scanner(System.in);
-                            option = in.nextInt();
-                            read = true;           //The user tipes a number between 1 and 5
-                        } catch (Exception e) {
-                            read = false;
-                        }
-                        if (option != 1 & option != 2 & option != 3 & option != 4 & option != 5) {
-                            read = false;
-                            System.out.println ("Please enter an integer value between 1 and 5.");
-                        }
-                    }
-            
-                    switch(option) {
-                        case 1:          //The user wants to like the post
-                            if (likePost == false) {
-                                userdao.addLike(postid);
-                                likePost = true;
-                            } else {
-                                System.out.println("You have already liked this post");
-                            }
+				if (thispost.postid!=0){
+						System.out.println("\nSHOWING POST NUMBER " + thispost.postid +"\n\nPOST:\n'" + thispost.post + "'\nRATING: " + thispost.stars + "\nLIKES NUMBER: " + thispost.likes + "\nNUMBER OF COMMENTS: " + thispost.commentsnumber);
+						System.out.println("\nPlease choose an option:\n1.Like this Post\n2.Show Comments\n3.Add comment\n4.Next Post\n5.Go to Main Menu\n");  
+						option = 0;
+						boolean read = false;
+						while (read != true) {
+							try {
+								Scanner in = new Scanner(System.in);
+								option = in.nextInt();
+								read = true;           //The user types a number between 1 and 5
+							} catch (Exception e) {
+								read = false;
+							}
+							if (option != 1 & option != 2 & option != 3 & option != 4 & option != 5) {
+								read = false;
+								System.out.println ("Please enter an integer value between 1 and 5.");
+							}
+						} 
+				
+						switch(option) {
+							case 1:          //The user wants to like the post
+								if (likePost == false) {
+									userdao.addLike(thispost.postid);
+									likePost = true;
+									System.out.println("\nPost liked successfully\n");
+								} else {
+									System.out.println("\n!You have already liked this post!\n");
+								}
+								break;
 
-                        case 2:          //The user wants to see the comments of the post
+							case 2:          //The user wants to see the comments of the post
 
 
-                            ArrayList<Integer> commentsids = userdao.getCommentsIds(post.postid);
-                            if (commentsids.size()==0) {
-                                System.out.println("No comments in this post yet");
-                            } else {
-                                Comments comments = new Comments();
-                                comments.showComments(commentsids);
-                            }
+								ArrayList<Integer> commentsids = userdao.getCommentsIds(thispost.postid);
+								if (commentsids.size()==0) {
+									System.out.println("No comments in this post yet");
+								} else {
+									Comments comments = new Comments();
+									comments.showComments(commentsids);
+								}
+								break;
 
-                        case 3:             //The user wants to add a comment
-                            
-                            String username = thisuser.getUsername();
-                            System.out.println("\n---------------------\nType your Comment\n");
-                            String comment = in.nextLine();
-                            userdao.addComment(comment, postsnum, username);
+							case 3:             //The user wants to add a comment
+								
+								String username = thisuser.getUsername();
+								System.out.println("\n---------------------\nType your Comment\n");
+								String comment = in.nextLine();
+								userdao.addComment(comment, i, username);
+								break;
 
-                        case 4:           //The user wants to see the next post
-                            i += 1;
-                        case 5:           //The user wants to go to Home Menu
-                            Menu.printMenu(thisuser);
+							case 4:           //The user wants to see the next post
+								i += 1;
+								likePost = false;
+								break;
+							case 5:           //The user wants to go to Home Menu
+								//boolean b = Menu.printMenu(thisuser);
+								i = 0;
+								thispost.postid = 0;
+								break;
 
-                    }
-
-                } while(option != 4 & option != 5);
-            } while (i <= postsnum );
+						}
+				} else{
+					System.out.println("\nThere are no more posts, returning...");			
+				}
+            } while(thispost.postid != 0 );
+			Menu.printMenu(thisuser);
         } catch (Exception e) {
-            System.out.println("Exception occured");
+            throw new Exception(e.getMessage());
         }
         
     }//End of showPosts
@@ -135,7 +147,7 @@ public class Posts {
                 System.out.println("Post successfully added");
                 added = true;
             } catch (Exception e) {
-                System.out.println("Exception occured");
+                System.out.println("Exception occurred while trying to add post");
             }
         } while(added = false);
     }//End of newPost

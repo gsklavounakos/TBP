@@ -20,44 +20,47 @@ public class UserDAO {
     
 	public User authenticate(String username, String password) throws Exception {
 		
-		String sql = "SELECT * FROM user WHERE username=? and upassword=?";
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
 
-            con = db.getConnection();
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, username);
-			stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
+		String sql = "SELECT * FROM allusers where username = '" + username + "' and upassword= '" + password + "'";
+        
 
-            if (!rs.next()) {
+        try {
+            
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
 
-                rs.close();
-                stmt.close();
-                db.close();
-                throw new Exception("No User found with username: " + username +"and this password");
+		if (!rs.next()) {
 
-            }
+			rs.close();
+			statement.close();
+            dbconnect.close();
+			throw new Exception("No User found with username: |" + username +"| and this password("+password+")");
+		}
 
-            User user = new User(rs.getString("username"),rs.getString("upassword"),
+        User user = new User(rs.getString("username"),rs.getString("upassword"),
                 rs.getInt("typeaccount"));
-            rs.close();
-            stmt.close();
-            db.close();
 
-            return user;
-
+		System.out.println("SUccesful login!");
+        rs.close();
+        statement.close();
+        dbconnect.close();
+        return user;
             
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        } finally {
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
+			throw new Exception(e.getMessage());
         }
 			
 		
@@ -71,51 +74,53 @@ public class UserDAO {
 	 */
 	public void register(User user) throws Exception {
 			
-		String sql = "SELECT * FROM user where username=? ;";
-        Connection con = null;
-        DB db = new DB();
+
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        Statement statementInsert = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
+
+		String sql = "SELECT * FROM allusers where username = '" + user.getUsername() + "'";
+        
 
         try {
             
-		con = db.getConnection();
-		PreparedStatement stmt = con.prepareStatement(sql);
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            statementInsert = dbconnect.createStatement();
 
-        //setting the ? as the users username
-
-		stmt.setString(1, user.getUsername());
-		ResultSet rs = stmt.executeQuery();
+            rs = statement.executeQuery(sql);
 
 		if (rs.next()) {
 
 			rs.close();
-			stmt.close();
-			db.close();
+			statementInsert.close();
+            statement.close();
+            dbconnect.close();
 			throw new Exception("Sorry, username "+ user.getUsername() + " already registered");
 		}
+		
+		String sql2 = "insert into allusers(username, upassword, typeaccount) values ('" +
+		user.getUsername() + "','" + user.getPassword() + "',' " + user.getTypeAccount() + "')";
 
-		String sql2 = "INSERT INTO users " 
-		+ " (username,password,typeaccount) VALUES (?, ? ,?);";
-		PreparedStatement stmt2 = con.prepareStatement(sql2);
-		stmt2.setString(1, user.getUsername());
-		stmt2.setString(2, user.getPassword());
-		stmt2.setInt(3, user.getTypeAccount());
-		stmt2.executeUpdate();	
-		stmt2.close();	
+        statementInsert.executeUpdate(sql2);
+		statementInsert.close();	
 		rs.close();
-		stmt.close();
-		db.close();
+		statement.close();
+		dbconnect.close();
 
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+			throw new Exception(e.getMessage());
+        }
 	}//end of register
 
     /**
@@ -127,33 +132,34 @@ public class UserDAO {
 	 */
     public void addPost(String newpost, int stars, String username) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
+
+        String sql = "INSERT INTO allposts(post,rating,likes,commentnumber,username) VALUES ('" + newpost + "','" + stars + "',0,0,'"+ username + "')";
+        try {
             
-            con = db.getConnection();
-			String sql = "INSERT INTO allposts(post,rating,likes,commentnumber,username) VALUES (?,?,0,0,?);";
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, newpost);
-            stmt.setInt(2, stars);
-            stmt.setString(3, username);
-            
-            stmt.executeUpdate();	
-			stmt.close();
-            db.close();
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            statement.executeUpdate(sql);
+
+            statement.close();
+            dbconnect.close();
+
 
         } catch (Exception e) {
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of addpost
 
     /**
@@ -165,33 +171,41 @@ public class UserDAO {
 	 */
     public void addComment(String newcomment, int postid, String username) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+		Statement statement1 = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "INSERT INTO allcomments(postid, comment, username) VALUES (?, ?, ?);";
-			PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, postid);
-			stmt.setString(2, newcomment);
-            stmt.setString(3, username);
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
 
-            stmt.executeUpdate();	
-			stmt.close();
-            db.close();
+        String sql = "INSERT INTO allcomments(comment,postid,username) VALUES ('" + newcomment + "','" + postid + "','"+ username + "')";
+		String sql1 = "UPDATE allposts SET commentnumber = commentnumber + 1 WHERE postid ='"+postid+"'";
+        
+        try {
+            
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+			statement1 = dbconnect.createStatement();
+            statement.executeUpdate(sql);
+			statement1.executeUpdate(sql1);
+
+            statement.close();
+			statement1.close();
+            dbconnect.close();
+
 
         } catch (Exception e) {
+            statement.close();
+			statement1.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of addcomment
     
     /**
@@ -201,23 +215,34 @@ public class UserDAO {
 	 */
     public ArrayList<Integer> getCommentsIds(int postid) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
 
-            con = db.getConnection();
-			String sql = "SELECT * FROM allcomments where postid=? ;";
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, postid);
-            ResultSet rs = stmt.executeQuery();
+        String sql = "SELECT * FROM allcomments where postid = '" + postid + "'";
+        
+
+        try {
+            
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
+
             if (!rs.next()) {
 
                 rs.close();
-                stmt.close();
-                db.close();
-                throw new Exception("Post with id = " + postid + "doesn't have any comments" );
-
+                statement.close();
+                dbconnect.close();
+                throw new Exception("Post with id = " + postid + " doesn't have any comments" );
             }
 
             ArrayList<Integer> commentsids = new ArrayList<>();
@@ -228,22 +253,17 @@ public class UserDAO {
 
             } while (rs.next());
 
-            stmt.close();
-            db.close();
+            rs.close();
+            statement.close();
+            dbconnect.close();
             return commentsids;
-        
 
         } catch (Exception e) {
+            rs.close();
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of getCommentsIds
 
     /**
@@ -253,35 +273,49 @@ public class UserDAO {
 	 */
     public Comments getComment(int commentid) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "SELECT * FROM allcomments where commentid=? ;";
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, commentid);
-            ResultSet rs = stmt.executeQuery();
-            String comment = rs.getString("comment");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
+
+        String sql = "SELECT * FROM allcomments where commentid='" + commentid + "'";			
+			
+        try{
+
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
+			
+			if (!rs.next()) {
+
+				rs.close();
+				statement.close();
+				dbconnect.close();
+				throw new Exception("No comments found" );
+			}
+			
             Comments c = new Comments(rs.getInt("commentid"),rs.getString("comment"),rs.getInt("postid"),rs.getString("username"));
             
-            stmt.close();
-            db.close();
+            rs.close();
+            statement.close();
+            dbconnect.close();
             return c;
 
 
         } catch (Exception e) {
+            rs.close();
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of getComment
 	
     /**
@@ -291,33 +325,49 @@ public class UserDAO {
 	 */
     public Posts getPost(int postid) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "SELECT * FROM allposts where postid=? ;";
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, postid);
-            ResultSet rs = stmt.executeQuery();
-            Posts p = new Posts(rs.getInt("postid"),rs.getString("posts"),rs.getInt("stars"),rs.getInt("likes"),rs.getInt("commentsnumber"));
-            stmt.close();
-            db.close();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
+        
+		String sql = "SELECT * FROM allposts where postid='" + postid + "'";
+
+        try{
+
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
+			
+			if (!rs.next()) {
+
+                rs.close();
+                statement.close();
+                dbconnect.close();
+				Posts e = new Posts();
+				return e;
+            }
+			
+            Posts p = new Posts(rs.getInt("postid"),rs.getString("post"),rs.getInt("rating"),rs.getInt("likes"),rs.getInt("commentnumber"));
+            rs.close();
+            statement.close();
+            dbconnect.close();
             return p;
 
 
         } catch (Exception e) {
+            rs.close();
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of getPost
 
     /**
@@ -327,33 +377,47 @@ public class UserDAO {
 	 */
     public String getPostRating(int postid) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "SELECT * FROM allposts where postid=? ;";
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, postid);
-            ResultSet rs = stmt.executeQuery();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
+
+		String sql = "SELECT * FROM allposts where postid='" + postid + "'";
+
+		if (!rs.next()) {
+
+			rs.close();
+			statement.close();
+			dbconnect.close();
+			throw new Exception("unable to retrieve posts's rating" );
+		}
+
+        try{
+
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
             String post = rs.getString("posts");
-            stmt.close();
-            db.close();
+            rs.close();
+            statement.close();
+            dbconnect.close();
             return post;
 
 
         } catch (Exception e) {
+            rs.close();
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of getPostRating
 
 
@@ -364,29 +428,37 @@ public class UserDAO {
 	 */
     public int getPostSize() throws Exception {
         
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+			        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "SELECT LAST_INSERT_ID();";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            int post = rs.getInt("SELECT LAST_INSERT_ID();");
-            db.close();
-            return post;
-        }  catch (Exception e) {
-            throw new Exception(e.getMessage());
-        } finally {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            System.out.println(e.getMessage());
+        }
 
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+		String sql = "SELECT IDENT_CURRENT('allposts');";
+
+        try{
+
+            dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            rs = statement.executeQuery(sql);
+            int post = rs.getInt("(No column name)");
+            rs.close();
+            statement.close();
+            dbconnect.close();
+            return post;
+        } catch (Exception e) {
+            rs.close();
+            statement.close();
+            dbconnect.close();
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -398,30 +470,33 @@ public class UserDAO {
 	 */
     public void addLike(int postid) throws Exception {
 			
-        Connection con = null;
-        DB db = new DB();
+        String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr;" +
+        "databaseName=DB98;user=G598;password=39gr00;";
+        Connection dbconnect = null;
+        Statement statement = null;
 
         try {
-            
-            con = db.getConnection();
-			String sql = "UPDATE allposts SET likes = likes + 1 WHERE postid = ?;";
-			PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, postid);
-            stmt.executeUpdate();	
-			stmt.close();
-            db.close();
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch(java.lang.ClassNotFoundException e) {
+        System.err.println("ClassNotFoundException");
+        System.out.println(e.getMessage());
+        }
+
+		String sql = "UPDATE allposts SET likes = likes + 1 WHERE postid ='"+postid+"'";
+
+        try{
+			dbconnect = DriverManager.getConnection(url);
+            statement = dbconnect.createStatement();
+            statement.executeUpdate(sql);
+
+            statement.close();
+            dbconnect.close();
 
         } catch (Exception e) {
+            statement.close();
+            dbconnect.close();
             throw new Exception(e.getMessage());
-        } finally {
-
-            try {
-                db.close();
-            } catch (Exception e) {
-                
-            }
-		
-		}
+        }
 	}//end of addLike
 
 

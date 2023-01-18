@@ -45,8 +45,9 @@ public class Comments {
             Posts thepost = userdao.getPost(comment.postid);
             do {
                 comment = userdao.getComment(commentsids.get(i-1));
-                System.out.println("Comment's ID " + comment.commentid +"\n\nComment:\n" + comment.comment + "\nAuthor "  + comment.username);
-                
+                //System.out.println("\nComment's ID " + comment.commentid +"\n\nComment:\n" + comment.comment + "\nAuthor's username: "  + comment.username);
+				System.out.println("\n"+comment.commentid + ".User '" + comment.username +"', commented:\n" + comment.comment + "\n");
+                i+=1;
                 
             }while(i<=commentssnum);
         } catch (Exception e) {

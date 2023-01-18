@@ -10,12 +10,16 @@ public class Main {
 	 */
 	public static void main(String args[]) {
   		boolean read = false;
-  		System.out.println("Welcome to ToEater!");
-		System.out.println("Enter: " + "\n" +
-                        "\r" + "1.Register" + "\n" +
-                        "\r" + "2.Log in" + "\n" +
-                        "\r" + "3.Exit.");
-        	int option = 0;
+		System.out.println("======================================");
+		System.out.println("|        Welcome to toEater!         |");
+		System.out.println("|     Please select and option:      |");
+		System.out.println("======================================");
+		System.out.println("| Options:                           |");
+		System.out.println("|        [1] Register                |");
+		System.out.println("|        [2] Log in                  |");
+		System.out.println("|        [3] Exit                    |");
+		System.out.println("======================================");
+		int option = 0;
 		while (read != true) {  //checks the user's input value for the option
 			try{
 				Scanner in = new Scanner(System.in);
@@ -31,12 +35,13 @@ public class Main {
 		}
 		
 		switch(option) {
-			case 1:	                                                //option 1 for register
+			case 1:	                         //option 1 for register
 				try {
 					Register r = new Register();
 					User tempuser = r.registerNewUser();
 
 					Boolean b = true;
+					
 
 					while (b == true) {
 
@@ -56,6 +61,13 @@ public class Main {
 				Login l = new Login();
 				 try {
 					User thisuser = l.signInUser();
+					Boolean b = true;
+
+					while (b == true) {
+
+						b = Menu.printMenu(thisuser); 
+
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
