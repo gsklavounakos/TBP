@@ -1,6 +1,5 @@
 # ToEater
 ToEater is a social media that allows its users to share their experience of the restaurants they visited with other users by posting reviews.
-
 ## Program execution instructions
 Download file from Github repository(If file is in zip form, download and unzip the file).
 Open command prompt (cmd).
@@ -35,16 +34,13 @@ Make sure that you have an sql server on your computer!
  - If User chooses "3", User can leave a comment under this post.
  - By typing "4", User can view the next post.
  - By typing "5", User can return to the home page/menu.
-
 ## Presentation of the structure of the repository contents
 The repository has 6 branches owned by almost every team member and contains pieces of the program.
 Εach branch contains the classes the team has been working on, which now appear in their final form on the main branch. T
 One of the branches also contains the 3 presentations that were made and elements necessary for them, such as the uml diagram. 
-
 The main branch contains the final version of the application code, the licence and the sql files used for our database.
-
 ## UML diagram about code design
-![UML diagram](https://github.com/gsklavounakos/TBP/blob/9aa58a42b124e2a84df1727f6d428d47b71a84d8/2022-12-13%20(6).png)
+![UML diagram](https://github.com/gsklavounakos/TBP/blob/a6a2d88175b2160486bd3f3f77321546d34eb0bb/uml%20diagram.png)
 
 ## Overview of data structures and algorithms used
 The sql code used to create database:[Create](https://github.com/gsklavounakos/TBP/blob/903c19e611e77b42294f5f4f737fcacb9cfc0489/ergasia%20prog.sql).
