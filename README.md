@@ -36,7 +36,7 @@ Make sure that you have an sql server on your computer!
  - By typing "5", User can return to the home page/menu.
 ## Presentation of the structure of the repository contents
 The repository has 6 branches owned by almost every team member and contains pieces of the program.
-Εach branch contains the classes the team has been working on, which now appear in their final form on the main branch. T
+Εach branch contains the classes the team has been working on, which now appear in their final form on the main branch.
 One of the branches also contains the 3 presentations that were made and elements necessary for them, such as the uml diagram. 
 The main branch contains the final version of the application code, the licence and the sql files used for our database.
 ## UML diagram about code design
